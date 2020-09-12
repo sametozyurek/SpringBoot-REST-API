@@ -1,0 +1,51 @@
+server:
+  port: 8080
+  error:
+    include-message: always
+
+logging:
+  level:
+    org.zalanda.logbook: TRACE
+    com.sametozyurek.getpostapi.api: info
+
+logbook:
+  include:
+    - /UserSignIn/**
+  exclude:
+    -/swagger-resources
+    -/swagger-ui.html
+  filter.enabled: true
+  secure-filter.enabled: true
+  format.style: http
+  minimum-status: 400
+  obfuscate:
+    headers:
+      - Authorization
+      - X-Secret
+    parameters:
+      - access_token
+      - password
+    write:
+      chunk-size: 1000
+  strategy: default
+
+spring:
+  profiles: local
+  datasource:
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:mem:bloodCenter
+    username: samet
+    password:
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: true
+    properties:
+      hibernate:
+        show_sql: true
+        use_sql_comments: true
+        format_sql: true
+    database-platform: org.hibernate.dialect.H2Dialect
+  h2:
+    console:
+      enabled: true
